@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-school.png";
 
 const HeroSection = () => {
@@ -16,18 +17,18 @@ const HeroSection = () => {
             Preparate para el nuevo año escolar con los mejores útiles, mochilas y más. ¡Calidad y estilo al mejor precio!
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-            <a
-              href="#productos"
+            <Link
+              to="/productos"
               className="inline-flex items-center justify-center bg-primary text-primary-foreground font-bold px-8 py-3.5 rounded-full text-base hover:opacity-90 transition-opacity shadow-lg shadow-primary/25"
             >
               Ver productos
-            </a>
-            <a
-              href="#categorias"
+            </Link>
+            <Link
+              to="/productos"
               className="inline-flex items-center justify-center bg-card text-foreground font-bold px-8 py-3.5 rounded-full text-base border border-border hover:bg-muted transition-colors"
             >
               Explorar categorías
-            </a>
+            </Link>
           </div>
         </div>
 

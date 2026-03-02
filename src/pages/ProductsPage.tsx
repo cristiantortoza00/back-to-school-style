@@ -1,0 +1,159 @@
+import { useState } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { ShoppingCart, Filter, X } from "lucide-react";
+import { products, categoryLabels, formatPrice, type Category } from "@/data/products";
+import { useCart } from "@/context/CartContext";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
+const allCategories = Object.keys(categoryLabels) as Category[];
+
+const ProductsPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeCategory = searchParams.get("categoria") as Category | null;
+  const { addToCart } = useCart();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const filtered = activeCategory
+    ? products.filter((p) => p.category === activeCategory)
+    : products;
+
+  const setCategory = (cat: Category | null) => {
+    if (cat) {
+      setSearchParams({ categoria: cat });
+    } else {
+      setSearchParams({});
+    }
+    setSidebarOpen(false);
+  };
+
+  const SidebarContent = () => (
+    <div className="flex flex-col gap-1">
+      <h3 className="font-heading font-700 text-sm text-muted-foreground uppercase tracking-wider mb-2 px-3">
+        Categorías
+      </h3>
+      <button
+        onClick={() => setCategory(null)}
+        className={`text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+          !activeCategory
+            ? "bg-primary text-primary-foreground"
+            : "text-foreground hover:bg-muted"
+        }`}
+      >
+        Todos los productos
+      </button>
+      {allCategories.map((cat) => (
+        <button
+          key={cat}
+          onClick={() => setCategory(cat)}
+          className={`text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+            activeCategory === cat
+              ? "bg-primary text-primary-foreground"
+              : "text-foreground hover:bg-muted"
+          }`}
+        >
+          {categoryLabels[cat]}
+        </button>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      <Navbar />
+
+      <div className="container flex-1 py-8">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="font-heading text-3xl md:text-4xl font-800 text-foreground">
+              {activeCategory ? categoryLabels[activeCategory] : "Todos los productos"}
+            </h1>
+            <p className="text-muted-foreground mt-1">{filtered.length} productos</p>
+          </div>
+          <button
+            className="lg:hidden flex items-center gap-2 bg-muted px-4 py-2 rounded-xl text-sm font-medium"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Filter className="w-4 h-4" /> Filtrar
+          </button>
+        </div>
+
+        <div className="flex gap-8">
+          {/* Desktop sidebar */}
+          <aside className="hidden lg:block w-56 shrink-0">
+            <div className="sticky top-24 bg-card border border-border rounded-2xl p-4">
+              <SidebarContent />
+            </div>
+          </aside>
+
+          {/* Mobile sidebar overlay */}
+          {sidebarOpen && (
+            <div className="fixed inset-0 z-50 lg:hidden">
+              <div className="absolute inset-0 bg-foreground/30" onClick={() => setSidebarOpen(false)} />
+              <div className="absolute left-0 top-0 bottom-0 w-72 bg-card p-6 shadow-xl animate-slide-in-right">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="font-heading font-700 text-lg">Filtrar</h2>
+                  <button onClick={() => setSidebarOpen(false)}>
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                <SidebarContent />
+              </div>
+            </div>
+          )}
+
+          {/* Product grid */}
+          <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 auto-rows-max">
+            {filtered.map((product) => (
+              <div
+                key={product.id}
+                className="group relative bg-card rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              >
+                {product.badge && (
+                  <span className="absolute top-3 left-3 z-10 bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1 rounded-full">
+                    {product.badge}
+                  </span>
+                )}
+
+                <Link to={`/productos/${product.id}`}>
+                  <div className="aspect-square flex items-center justify-center bg-muted/40 text-6xl group-hover:scale-105 transition-transform duration-300 cursor-pointer">
+                    {product.emoji}
+                  </div>
+                </Link>
+
+                <div className="p-4">
+                  <Link to={`/productos/${product.id}`}>
+                    <h3 className="font-heading font-700 text-sm text-foreground mb-2 line-clamp-2 hover:text-primary transition-colors">
+                      {product.name}
+                    </h3>
+                  </Link>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="font-heading font-800 text-lg text-primary">
+                      {formatPrice(product.price)}
+                    </span>
+                    {product.oldPrice && (
+                      <span className="text-muted-foreground text-xs line-through">
+                        {formatPrice(product.oldPrice)}
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => addToCart(product)}
+                    className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold text-sm py-2.5 rounded-xl hover:opacity-90 transition-opacity"
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    Agregar
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default ProductsPage;
