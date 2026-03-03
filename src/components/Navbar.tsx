@@ -1,4 +1,4 @@
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, Settings } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
@@ -18,6 +18,7 @@ const Navbar = () => {
           <Link to="/" className="text-foreground hover:text-primary transition-colors">Inicio</Link>
           <Link to="/productos" className="text-foreground hover:text-primary transition-colors">Productos</Link>
           <Link to="/contacto" className="text-foreground hover:text-primary transition-colors">Contacto</Link>
+          <Link to="/admin" className="text-foreground hover:text-primary transition-colors flex items-center gap-1"><Settings className="w-3.5 h-3.5" />Admin</Link>
         </div>
 
         <div className="flex items-center gap-4">
@@ -41,6 +42,7 @@ const Navbar = () => {
           <Link to="/productos" onClick={() => setOpen(false)} className="text-foreground hover:text-primary transition-colors py-1">Productos</Link>
           <Link to="/contacto" onClick={() => setOpen(false)} className="text-foreground hover:text-primary transition-colors py-1">Contacto</Link>
           <Link to="/carrito" onClick={() => setOpen(false)} className="text-foreground hover:text-primary transition-colors py-1">Carrito</Link>
+          <Link to="/admin" onClick={() => setOpen(false)} className="text-foreground hover:text-primary transition-colors py-1 flex items-center gap-1"><Settings className="w-3.5 h-3.5" />Admin</Link>
         </div>
       )}
     </nav>

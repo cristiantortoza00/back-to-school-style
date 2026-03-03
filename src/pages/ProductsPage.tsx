@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { ShoppingCart, Filter, X } from "lucide-react";
-import { products, categoryLabels, formatPrice, type Category } from "@/data/products";
+import { formatPrice, type Category } from "@/data/products";
+import { useProducts } from "@/context/ProductsContext";
 import { useCart } from "@/context/CartContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-const allCategories = Object.keys(categoryLabels) as Category[];
 
 const ProductsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get("categoria") as Category | null;
   const { addToCart } = useCart();
+  const { products, categories } = useProducts();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const filtered = activeCategory
@@ -42,17 +42,17 @@ const ProductsPage = () => {
       >
         Todos los productos
       </button>
-      {allCategories.map((cat) => (
+      {categories.map((cat) => (
         <button
-          key={cat}
-          onClick={() => setCategory(cat)}
+          key={cat.id}
+          onClick={() => setCategory(cat.id)}
           className={`text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-            activeCategory === cat
+            activeCategory === cat.id
               ? "bg-primary text-primary-foreground"
               : "text-foreground hover:bg-muted"
           }`}
         >
-          {categoryLabels[cat]}
+          {cat.label}
         </button>
       ))}
     </div>
@@ -66,7 +66,7 @@ const ProductsPage = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="font-heading text-3xl md:text-4xl font-800 text-foreground">
-              {activeCategory ? categoryLabels[activeCategory] : "Todos los productos"}
+              {activeCategory ? categories.find(c => c.id === activeCategory)?.label ?? activeCategory : "Todos los productos"}
             </h1>
             <p className="text-muted-foreground mt-1">{filtered.length} productos</p>
           </div>
