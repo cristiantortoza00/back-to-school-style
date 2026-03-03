@@ -14,7 +14,8 @@ const HeroSection = () => {
             <span className="text-primary">vuelta a clases</span>
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl max-w-lg mb-8">
-            Preparate para el nuevo año escolar con los mejores útiles, mochilas y más. ¡Calidad y estilo al mejor precio!
+            Preparate para el nuevo año escolar con los mejores útiles, mochilas
+            y más. ¡Calidad y estilo al mejor precio!
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
             <Link

@@ -2,11 +2,36 @@ import { Link } from "react-router-dom";
 import { Backpack, BookOpen, Pencil, Palette, Package } from "lucide-react";
 
 const categories = [
-  { name: "Mochilas", icon: Backpack, color: "bg-lavender/20 text-primary", slug: "mochilas" },
-  { name: "Cuadernos", icon: BookOpen, color: "bg-celeste/20 text-secondary-foreground", slug: "cuadernos" },
-  { name: "Cartucheras", icon: Pencil, color: "bg-rosa/20 text-accent-foreground", slug: "cartucheras" },
-  { name: "Sets Escolares", icon: Package, color: "bg-mint/20 text-foreground", slug: "sets-escolares" },
-  { name: "Arte y Dibujo", icon: Palette, color: "bg-beige text-foreground", slug: "arte-y-dibujo" },
+  {
+    name: "Mochilas",
+    icon: Backpack,
+    color: "bg-lavender/20 text-primary",
+    slug: "mochilas",
+  },
+  {
+    name: "Cuadernos",
+    icon: BookOpen,
+    color: "bg-celeste/20 text-secondary-foreground",
+    slug: "cuadernos",
+  },
+  {
+    name: "Cartucheras",
+    icon: Pencil,
+    color: "bg-rosa/20 text-accent-foreground",
+    slug: "cartucheras",
+  },
+  {
+    name: "Sets Escolares",
+    icon: Package,
+    color: "bg-mint/20 text-foreground",
+    slug: "sets-escolares",
+  },
+  {
+    name: "Arte y Dibujo",
+    icon: Palette,
+    color: "bg-beige text-foreground",
+    slug: "arte-y-dibujo",
+  },
 ];
 
 const CategoriesSection = () => {
@@ -30,10 +55,14 @@ const CategoriesSection = () => {
               className="group flex flex-col items-center gap-3 p-6 md:p-8 rounded-2xl bg-card border border-border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 animate-fade-in-up"
               style={{ animationDelay: `${i * 0.1}s` }}
             >
-              <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${cat.color} transition-transform group-hover:scale-110`}>
+              <div
+                className={`w-14 h-14 rounded-xl flex items-center justify-center ${cat.color} transition-transform group-hover:scale-110`}
+              >
                 <cat.icon className="w-7 h-7" />
               </div>
-              <span className="font-heading font-700 text-sm text-foreground">{cat.name}</span>
+              <span className="font-heading font-700 text-sm text-foreground">
+                {cat.name}
+              </span>
             </Link>
           ))}
         </div>

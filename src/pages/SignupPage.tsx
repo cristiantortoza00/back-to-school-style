@@ -9,21 +9,31 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 
-const signupSchema = z.object({
-  email: z.string().trim().email({ message: "Email inválido" }),
-  password: z.string().min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
-  confirmPassword: z.string().min(6, { message: "Confirmá tu contraseña" }),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Las contraseñas no coinciden",
-  path: ["confirmPassword"],
-});
+const signupSchema = z
+  .object({
+    email: z.string().trim().email({ message: "Email inválido" }),
+    password: z
+      .string()
+      .min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
+    confirmPassword: z.string().min(6, { message: "Confirmá tu contraseña" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Las contraseñas no coinciden",
+    path: ["confirmPassword"],
+  });
 
 type SignupForm = z.infer<typeof signupSchema>;
 
 const SignupPage = () => {
   const { toast } = useToast();
-  const [form, setForm] = useState<SignupForm>({ email: "", password: "", confirmPassword: "" });
-  const [errors, setErrors] = useState<Partial<Record<keyof SignupForm, string>>>({});
+  const [form, setForm] = useState<SignupForm>({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof SignupForm, string>>
+  >({});
   const [loading, setLoading] = useState(false);
 
   const handleChange = (field: keyof SignupForm, value: string) => {
@@ -49,7 +59,10 @@ const SignupPage = () => {
     // TODO: Conectar con backend de autenticación
     setTimeout(() => {
       setLoading(false);
-      toast({ title: "Cuenta creada", description: "¡Bienvenido/a! Ya podés iniciar sesión." });
+      toast({
+        title: "Cuenta creada",
+        description: "¡Bienvenido/a! Ya podés iniciar sesión.",
+      });
     }, 1000);
   };
 
@@ -63,8 +76,12 @@ const SignupPage = () => {
               <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <UserPlus className="w-7 h-7 text-primary" />
               </div>
-              <h1 className="font-heading text-2xl font-800 text-foreground">Crear cuenta</h1>
-              <p className="text-muted-foreground text-sm mt-1">Registrate para empezar a comprar</p>
+              <h1 className="font-heading text-2xl font-800 text-foreground">
+                Crear cuenta
+              </h1>
+              <p className="text-muted-foreground text-sm mt-1">
+                Registrate para empezar a comprar
+              </p>
             </div>
 
             <form onSubmit={handleSubmit} className="grid gap-5">
@@ -81,7 +98,11 @@ const SignupPage = () => {
                     onChange={(e) => handleChange("email", e.target.value)}
                   />
                 </div>
-                {errors.email && <p className="text-destructive text-xs font-medium">{errors.email}</p>}
+                {errors.email && (
+                  <p className="text-destructive text-xs font-medium">
+                    {errors.email}
+                  </p>
+                )}
               </div>
 
               <div className="grid gap-2">
@@ -97,7 +118,11 @@ const SignupPage = () => {
                     onChange={(e) => handleChange("password", e.target.value)}
                   />
                 </div>
-                {errors.password && <p className="text-destructive text-xs font-medium">{errors.password}</p>}
+                {errors.password && (
+                  <p className="text-destructive text-xs font-medium">
+                    {errors.password}
+                  </p>
+                )}
               </div>
 
               <div className="grid gap-2">
@@ -110,20 +135,33 @@ const SignupPage = () => {
                     placeholder="••••••••"
                     className="pl-10"
                     value={form.confirmPassword}
-                    onChange={(e) => handleChange("confirmPassword", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("confirmPassword", e.target.value)
+                    }
                   />
                 </div>
-                {errors.confirmPassword && <p className="text-destructive text-xs font-medium">{errors.confirmPassword}</p>}
+                {errors.confirmPassword && (
+                  <p className="text-destructive text-xs font-medium">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
 
-              <Button type="submit" className="w-full py-3 font-bold text-base rounded-xl" disabled={loading}>
+              <Button
+                type="submit"
+                className="w-full py-3 font-bold text-base rounded-xl"
+                disabled={loading}
+              >
                 {loading ? "Creando cuenta..." : "Crear cuenta"}
               </Button>
             </form>
 
             <p className="text-center text-sm text-muted-foreground mt-6">
               ¿Ya tenés cuenta?{" "}
-              <Link to="/login" className="text-primary font-semibold hover:underline">
+              <Link
+                to="/login"
+                className="text-primary font-semibold hover:underline"
+              >
                 Iniciá sesión
               </Link>
             </p>

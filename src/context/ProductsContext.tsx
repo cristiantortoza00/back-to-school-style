@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { products as defaultProducts, type Product, type Category, categoryLabels as defaultCategoryLabels } from "@/data/products";
-
+import {
+  products as defaultProducts,
+  type Product,
+  type Category,
+  categoryLabels as defaultCategoryLabels,
+} from "@/data/products";
 
 export interface CategoryItem {
   id: Category;
@@ -23,24 +27,36 @@ const ProductsContext = createContext<ProductsContextType | null>(null);
 const PRODUCTS_KEY = "admin_products";
 const CATEGORIES_KEY = "admin_categories";
 
-const defaultCategories: CategoryItem[] = Object.entries(defaultCategoryLabels).map(([id, label]) => ({
+const defaultCategories: CategoryItem[] = Object.entries(
+  defaultCategoryLabels,
+).map(([id, label]) => ({
   id: id as Category,
   label,
 }));
 
-export const ProductsProvider = ({ children }: { children: React.ReactNode }) => {
+export const ProductsProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [products, setProducts] = useState<Product[]>(() => {
     const stored = localStorage.getItem(PRODUCTS_KEY);
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
         // Migrate old emoji-based products to image-based
-        if (parsed.length > 0 && 'emoji' in parsed[0] && !('image' in parsed[0])) {
+        if (
+          parsed.length > 0 &&
+          "emoji" in parsed[0] &&
+          !("image" in parsed[0])
+        ) {
           localStorage.removeItem(PRODUCTS_KEY);
           return defaultProducts;
         }
         return parsed;
-      } catch { return defaultProducts; }
+      } catch {
+        return defaultProducts;
+      }
     }
     return defaultProducts;
   });
@@ -50,8 +66,14 @@ export const ProductsProvider = ({ children }: { children: React.ReactNode }) =>
     return stored ? JSON.parse(stored) : defaultCategories;
   });
 
-  useEffect(() => localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products)), [products]);
-  useEffect(() => localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories)), [categories]);
+  useEffect(
+    () => localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products)),
+    [products],
+  );
+  useEffect(
+    () => localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories)),
+    [categories],
+  );
 
   const addProduct = (p: Omit<Product, "id">) => {
     const id = p.name.toLowerCase().replace(/\s+/g, "-") + "-" + Date.now();
@@ -59,7 +81,9 @@ export const ProductsProvider = ({ children }: { children: React.ReactNode }) =>
   };
 
   const updateProduct = (id: string, data: Partial<Product>) => {
-    setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...data } : p)));
+    setProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, ...data } : p)),
+    );
   };
 
   const deleteProduct = (id: string) => {
@@ -72,7 +96,9 @@ export const ProductsProvider = ({ children }: { children: React.ReactNode }) =>
   };
 
   const updateCategory = (id: Category, label: string) => {
-    setCategories((prev) => prev.map((c) => (c.id === id ? { ...c, label } : c)));
+    setCategories((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, label } : c)),
+    );
   };
 
   const deleteCategory = (id: Category) => {
@@ -81,7 +107,16 @@ export const ProductsProvider = ({ children }: { children: React.ReactNode }) =>
 
   return (
     <ProductsContext.Provider
-      value={{ products, categories, addProduct, updateProduct, deleteProduct, addCategory, updateCategory, deleteCategory }}
+      value={{
+        products,
+        categories,
+        addProduct,
+        updateProduct,
+        deleteProduct,
+        addCategory,
+        updateCategory,
+        deleteCategory,
+      }}
     >
       {children}
     </ProductsContext.Provider>

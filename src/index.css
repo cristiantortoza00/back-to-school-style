@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -52,7 +52,7 @@
     --sidebar-border: 260 20% 90%;
     --sidebar-ring: 260 50% 70%;
 
-    font-family: 'Quicksand', sans-serif;
+    font-family: "Quicksand", sans-serif;
   }
 
   .dark {
@@ -95,8 +95,13 @@
     @apply bg-background text-foreground font-body antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nunito', sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Nunito", sans-serif;
   }
 }
 

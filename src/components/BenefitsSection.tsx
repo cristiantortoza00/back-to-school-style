@@ -2,9 +2,21 @@ import { Truck, CreditCard, Percent, ShieldCheck } from "lucide-react";
 
 const benefits = [
   { icon: Truck, title: "Envíos rápidos", desc: "Recibí tu pedido en 24-48hs" },
-  { icon: CreditCard, title: "Todos los medios", desc: "Tarjeta, transferencia y efectivo" },
-  { icon: Percent, title: "Descuentos por cantidad", desc: "Más comprás, más ahorrás" },
-  { icon: ShieldCheck, title: "Compra segura", desc: "Datos protegidos y garantía" },
+  {
+    icon: CreditCard,
+    title: "Todos los medios",
+    desc: "Tarjeta, transferencia y efectivo",
+  },
+  {
+    icon: Percent,
+    title: "Descuentos por cantidad",
+    desc: "Más comprás, más ahorrás",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Compra segura",
+    desc: "Datos protegidos y garantía",
+  },
 ];
 
 const BenefitsSection = () => {
@@ -21,7 +33,9 @@ const BenefitsSection = () => {
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                 <b.icon className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-heading font-700 text-foreground">{b.title}</h3>
+              <h3 className="font-heading font-700 text-foreground">
+                {b.title}
+              </h3>
               <p className="text-muted-foreground text-sm">{b.desc}</p>
             </div>
           ))}

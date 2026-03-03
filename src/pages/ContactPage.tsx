@@ -4,7 +4,12 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const ContactPage = () => {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +22,9 @@ const ContactPage = () => {
 
       <div className="container flex-1 py-12">
         <div className="text-center mb-12 animate-fade-in-up">
-          <h1 className="font-heading text-3xl md:text-4xl font-800 text-foreground mb-3">Contactanos</h1>
+          <h1 className="font-heading text-3xl md:text-4xl font-800 text-foreground mb-3">
+            Contactanos
+          </h1>
           <p className="text-muted-foreground text-lg max-w-md mx-auto">
             ¿Tenés alguna consulta? Estamos para ayudarte
           </p>
@@ -27,20 +34,29 @@ const ContactPage = () => {
           {/* Info */}
           <div className="flex flex-col gap-6 animate-fade-in-up">
             <div className="bg-card border border-border rounded-2xl p-6 flex flex-col gap-5">
-              <h2 className="font-heading text-xl font-700 text-foreground">Información</h2>
+              <h2 className="font-heading text-xl font-700 text-foreground">
+                Información
+              </h2>
 
               <div className="flex items-start gap-3 text-sm">
                 <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div>
-                  <p className="font-heading font-700 text-foreground">Dirección</p>
-                  <p className="text-muted-foreground">Av. Corrientes 1234, Piso 2<br />CABA, Buenos Aires, Argentina</p>
+                  <p className="font-heading font-700 text-foreground">
+                    Dirección
+                  </p>
+                  <p className="text-muted-foreground">
+                    Av. Corrientes 1234, Piso 2<br />
+                    CABA, Buenos Aires, Argentina
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3 text-sm">
                 <Phone className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div>
-                  <p className="font-heading font-700 text-foreground">Teléfono</p>
+                  <p className="font-heading font-700 text-foreground">
+                    Teléfono
+                  </p>
                   <p className="text-muted-foreground">+54 11 1234-5678</p>
                 </div>
               </div>
@@ -56,10 +72,14 @@ const ContactPage = () => {
               <div className="flex items-start gap-3 text-sm">
                 <Clock className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div>
-                  <p className="font-heading font-700 text-foreground">Horarios</p>
+                  <p className="font-heading font-700 text-foreground">
+                    Horarios
+                  </p>
                   <p className="text-muted-foreground">
-                    Lunes a Viernes: 9:00 - 19:00<br />
-                    Sábados: 10:00 - 14:00<br />
+                    Lunes a Viernes: 9:00 - 19:00
+                    <br />
+                    Sábados: 10:00 - 14:00
+                    <br />
                     Domingos: Cerrado
                   </p>
                 </div>
@@ -73,9 +93,14 @@ const ContactPage = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 animate-fade-in-up-delay-1">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 animate-fade-in-up-delay-1"
+          >
             <div>
-              <label className="font-heading font-700 text-sm text-foreground block mb-1.5">Nombre</label>
+              <label className="font-heading font-700 text-sm text-foreground block mb-1.5">
+                Nombre
+              </label>
               <input
                 type="text"
                 value={form.name}
@@ -85,7 +110,9 @@ const ContactPage = () => {
               />
             </div>
             <div>
-              <label className="font-heading font-700 text-sm text-foreground block mb-1.5">Email</label>
+              <label className="font-heading font-700 text-sm text-foreground block mb-1.5">
+                Email
+              </label>
               <input
                 type="email"
                 value={form.email}
@@ -95,7 +122,9 @@ const ContactPage = () => {
               />
             </div>
             <div>
-              <label className="font-heading font-700 text-sm text-foreground block mb-1.5">Asunto</label>
+              <label className="font-heading font-700 text-sm text-foreground block mb-1.5">
+                Asunto
+              </label>
               <input
                 type="text"
                 value={form.subject}
@@ -105,7 +134,9 @@ const ContactPage = () => {
               />
             </div>
             <div>
-              <label className="font-heading font-700 text-sm text-foreground block mb-1.5">Mensaje</label>
+              <label className="font-heading font-700 text-sm text-foreground block mb-1.5">
+                Mensaje
+              </label>
               <textarea
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}

@@ -1,6 +1,14 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
-import { ArrowLeft, Minus, Plus, ShoppingCart, Truck, ShieldCheck, RotateCcw } from "lucide-react";
+import {
+  ArrowLeft,
+  Minus,
+  Plus,
+  ShoppingCart,
+  Truck,
+  ShieldCheck,
+  RotateCcw,
+} from "lucide-react";
 import { formatPrice } from "@/data/products";
 import { useProducts } from "@/context/ProductsContext";
 import { useCart } from "@/context/CartContext";
@@ -20,8 +28,12 @@ const ProductDetailPage = () => {
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="font-heading text-2xl font-800 text-foreground mb-2">Producto no encontrado</h1>
-            <Link to="/productos" className="text-primary hover:underline">Volver a productos</Link>
+            <h1 className="font-heading text-2xl font-800 text-foreground mb-2">
+              Producto no encontrado
+            </h1>
+            <Link to="/productos" className="text-primary hover:underline">
+              Volver a productos
+            </Link>
           </div>
         </div>
         <Footer />
@@ -97,7 +109,9 @@ const ProductDetailPage = () => {
 
             {/* Quantity */}
             <div className="flex items-center gap-4 mb-6">
-              <span className="font-heading font-700 text-sm text-foreground">Cantidad:</span>
+              <span className="font-heading font-700 text-sm text-foreground">
+                Cantidad:
+              </span>
               <div className="flex items-center border border-border rounded-xl overflow-hidden">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}

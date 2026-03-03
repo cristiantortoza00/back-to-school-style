@@ -28,7 +28,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         return prev.map((i) =>
           i.product.id === product.id
             ? { ...i, quantity: i.quantity + quantity }
-            : i
+            : i,
         );
       }
       return [...prev, { product, quantity }];
@@ -42,20 +42,29 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const updateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) return removeFromCart(productId);
     setItems((prev) =>
-      prev.map((i) =>
-        i.product.id === productId ? { ...i, quantity } : i
-      )
+      prev.map((i) => (i.product.id === productId ? { ...i, quantity } : i)),
     );
   };
 
   const clearCart = () => setItems([]);
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
-  const totalPrice = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
+  const totalPrice = items.reduce(
+    (sum, i) => sum + i.product.price * i.quantity,
+    0,
+  );
 
   return (
     <CartContext.Provider
-      value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, totalItems, totalPrice }}
+      value={{
+        items,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        totalItems,
+        totalPrice,
+      }}
     >
       {children}
     </CartContext.Provider>

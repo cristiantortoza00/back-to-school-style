@@ -6,7 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const CartPage = () => {
-  const { items, updateQuantity, removeFromCart, clearCart, totalPrice } = useCart();
+  const { items, updateQuantity, removeFromCart, clearCart, totalPrice } =
+    useCart();
 
   const shipping = totalPrice > 20000 ? 0 : 3500;
   const finalTotal = totalPrice + shipping;
@@ -18,8 +19,12 @@ const CartPage = () => {
         <div className="flex-1 flex items-center justify-center py-20">
           <div className="text-center">
             <ShoppingBag className="w-16 h-16 text-muted-foreground/40 mx-auto mb-4" />
-            <h1 className="font-heading text-2xl font-800 text-foreground mb-2">Tu carrito está vacío</h1>
-            <p className="text-muted-foreground mb-6">¡Explorá nuestros productos y empezá a agregar!</p>
+            <h1 className="font-heading text-2xl font-800 text-foreground mb-2">
+              Tu carrito está vacío
+            </h1>
+            <p className="text-muted-foreground mb-6">
+              ¡Explorá nuestros productos y empezá a agregar!
+            </p>
             <Link
               to="/productos"
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-bold px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
@@ -60,7 +65,11 @@ const CartPage = () => {
                   to={`/productos/${product.id}`}
                   className="w-20 h-20 bg-muted/40 rounded-xl overflow-hidden shrink-0 hover:scale-105 transition-transform"
                 >
-                  <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
                 </Link>
 
                 <div className="flex-1 min-w-0">
@@ -81,7 +90,9 @@ const CartPage = () => {
                   >
                     <Minus className="w-3.5 h-3.5" />
                   </button>
-                  <span className="px-3 font-heading font-700 text-sm text-foreground">{quantity}</span>
+                  <span className="px-3 font-heading font-700 text-sm text-foreground">
+                    {quantity}
+                  </span>
                   <button
                     onClick={() => updateQuantity(product.id, quantity + 1)}
                     className="p-2 hover:bg-muted transition-colors"
@@ -113,12 +124,16 @@ const CartPage = () => {
 
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-card border border-border rounded-2xl p-6">
-              <h2 className="font-heading text-xl font-800 text-foreground mb-6">Resumen</h2>
+              <h2 className="font-heading text-xl font-800 text-foreground mb-6">
+                Resumen
+              </h2>
 
               <div className="flex flex-col gap-3 text-sm mb-6">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span className="font-heading font-700 text-foreground">{formatPrice(totalPrice)}</span>
+                  <span className="font-heading font-700 text-foreground">
+                    {formatPrice(totalPrice)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Envío</span>
@@ -136,8 +151,12 @@ const CartPage = () => {
                   </p>
                 )}
                 <div className="border-t border-border pt-3 flex justify-between">
-                  <span className="font-heading font-700 text-foreground">Total</span>
-                  <span className="font-heading font-800 text-xl text-primary">{formatPrice(finalTotal)}</span>
+                  <span className="font-heading font-700 text-foreground">
+                    Total
+                  </span>
+                  <span className="font-heading font-800 text-xl text-primary">
+                    {formatPrice(finalTotal)}
+                  </span>
                 </div>
               </div>
 

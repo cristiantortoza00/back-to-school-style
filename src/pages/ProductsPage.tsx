@@ -66,9 +66,14 @@ const ProductsPage = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="font-heading text-3xl md:text-4xl font-800 text-foreground">
-              {activeCategory ? categories.find(c => c.id === activeCategory)?.label ?? activeCategory : "Todos los productos"}
+              {activeCategory
+                ? (categories.find((c) => c.id === activeCategory)?.label ??
+                  activeCategory)
+                : "Todos los productos"}
             </h1>
-            <p className="text-muted-foreground mt-1">{filtered.length} productos</p>
+            <p className="text-muted-foreground mt-1">
+              {filtered.length} productos
+            </p>
           </div>
           <button
             className="lg:hidden flex items-center gap-2 bg-muted px-4 py-2 rounded-xl text-sm font-medium"
@@ -87,7 +92,10 @@ const ProductsPage = () => {
 
           {sidebarOpen && (
             <div className="fixed inset-0 z-50 lg:hidden">
-              <div className="absolute inset-0 bg-foreground/30" onClick={() => setSidebarOpen(false)} />
+              <div
+                className="absolute inset-0 bg-foreground/30"
+                onClick={() => setSidebarOpen(false)}
+              />
               <div className="absolute left-0 top-0 bottom-0 w-72 bg-card p-6 shadow-xl animate-slide-in-right">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="font-heading font-700 text-lg">Filtrar</h2>
