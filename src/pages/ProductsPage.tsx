@@ -79,14 +79,12 @@ const ProductsPage = () => {
         </div>
 
         <div className="flex gap-8">
-          {/* Desktop sidebar */}
           <aside className="hidden lg:block w-56 shrink-0">
             <div className="sticky top-24 bg-card border border-border rounded-2xl p-4">
               <SidebarContent />
             </div>
           </aside>
 
-          {/* Mobile sidebar overlay */}
           {sidebarOpen && (
             <div className="fixed inset-0 z-50 lg:hidden">
               <div className="absolute inset-0 bg-foreground/30" onClick={() => setSidebarOpen(false)} />
@@ -102,7 +100,6 @@ const ProductsPage = () => {
             </div>
           )}
 
-          {/* Product grid */}
           <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 auto-rows-max">
             {filtered.map((product) => (
               <div
@@ -116,8 +113,12 @@ const ProductsPage = () => {
                 )}
 
                 <Link to={`/productos/${product.id}`}>
-                  <div className="aspect-square flex items-center justify-center bg-muted/40 text-6xl group-hover:scale-105 transition-transform duration-300 cursor-pointer">
-                    {product.emoji}
+                  <div className="aspect-square bg-muted/40 overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
                 </Link>
 

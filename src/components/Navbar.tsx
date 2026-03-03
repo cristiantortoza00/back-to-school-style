@@ -1,4 +1,4 @@
-import { ShoppingCart, Menu, X, Settings } from "lucide-react";
+import { ShoppingCart, Menu, X, Settings, User } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
@@ -21,7 +21,10 @@ const Navbar = () => {
           <Link to="/admin" className="text-foreground hover:text-primary transition-colors flex items-center gap-1"><Settings className="w-3.5 h-3.5" />Admin</Link>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <Link to="/login" className="hidden md:flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <User className="w-4 h-4" /> Ingresar
+          </Link>
           <Link to="/carrito" className="relative p-2 rounded-lg hover:bg-muted transition-colors">
             <ShoppingCart className="w-5 h-5 text-foreground" />
             {totalItems > 0 && (
@@ -42,6 +45,7 @@ const Navbar = () => {
           <Link to="/productos" onClick={() => setOpen(false)} className="text-foreground hover:text-primary transition-colors py-1">Productos</Link>
           <Link to="/contacto" onClick={() => setOpen(false)} className="text-foreground hover:text-primary transition-colors py-1">Contacto</Link>
           <Link to="/carrito" onClick={() => setOpen(false)} className="text-foreground hover:text-primary transition-colors py-1">Carrito</Link>
+          <Link to="/login" onClick={() => setOpen(false)} className="text-foreground hover:text-primary transition-colors py-1 flex items-center gap-1"><User className="w-3.5 h-3.5" />Ingresar</Link>
           <Link to="/admin" onClick={() => setOpen(false)} className="text-foreground hover:text-primary transition-colors py-1 flex items-center gap-1"><Settings className="w-3.5 h-3.5" />Admin</Link>
         </div>
       )}

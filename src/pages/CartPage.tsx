@@ -50,7 +50,6 @@ const CartPage = () => {
         </h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Items */}
           <div className="lg:col-span-2 flex flex-col gap-4">
             {items.map(({ product, quantity }) => (
               <div
@@ -59,9 +58,9 @@ const CartPage = () => {
               >
                 <Link
                   to={`/productos/${product.id}`}
-                  className="w-20 h-20 bg-muted/40 rounded-xl flex items-center justify-center text-4xl shrink-0 hover:scale-105 transition-transform"
+                  className="w-20 h-20 bg-muted/40 rounded-xl overflow-hidden shrink-0 hover:scale-105 transition-transform"
                 >
-                  {product.emoji}
+                  <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                 </Link>
 
                 <div className="flex-1 min-w-0">
@@ -112,7 +111,6 @@ const CartPage = () => {
             </button>
           </div>
 
-          {/* Summary */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-card border border-border rounded-2xl p-6">
               <h2 className="font-heading text-xl font-800 text-foreground mb-6">Resumen</h2>

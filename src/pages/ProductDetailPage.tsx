@@ -52,13 +52,17 @@ const ProductDetailPage = () => {
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {/* Image */}
-          <div className="bg-card border border-border rounded-3xl aspect-square flex items-center justify-center text-[8rem] md:text-[10rem] relative overflow-hidden">
+          <div className="bg-card border border-border rounded-3xl aspect-square overflow-hidden relative">
             {product.badge && (
-              <span className="absolute top-4 left-4 bg-primary text-primary-foreground text-sm font-bold px-3 py-1.5 rounded-full">
+              <span className="absolute top-4 left-4 z-10 bg-primary text-primary-foreground text-sm font-bold px-3 py-1.5 rounded-full">
                 {product.badge}
               </span>
             )}
-            {product.emoji}
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {/* Info */}

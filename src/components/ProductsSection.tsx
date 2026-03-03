@@ -35,8 +35,12 @@ const ProductsSection = () => {
               )}
 
               <Link to={`/productos/${product.id}`}>
-                <div className="aspect-square flex items-center justify-center bg-muted/40 text-6xl group-hover:scale-105 transition-transform duration-300">
-                  {product.emoji}
+                <div className="aspect-square bg-muted/40 overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
               </Link>
 

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { products as defaultProducts, type Product, type Category, categoryLabels as defaultCategoryLabels } from "@/data/products";
 
+
 export interface CategoryItem {
   id: Category;
   label: string;
@@ -30,7 +31,18 @@ const defaultCategories: CategoryItem[] = Object.entries(defaultCategoryLabels).
 export const ProductsProvider = ({ children }: { children: React.ReactNode }) => {
   const [products, setProducts] = useState<Product[]>(() => {
     const stored = localStorage.getItem(PRODUCTS_KEY);
-    return stored ? JSON.parse(stored) : defaultProducts;
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        // Migrate old emoji-based products to image-based
+        if (parsed.length > 0 && 'emoji' in parsed[0] && !('image' in parsed[0])) {
+          localStorage.removeItem(PRODUCTS_KEY);
+          return defaultProducts;
+        }
+        return parsed;
+      } catch { return defaultProducts; }
+    }
+    return defaultProducts;
   });
 
   const [categories, setCategories] = useState<CategoryItem[]>(() => {
