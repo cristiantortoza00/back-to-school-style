@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
-import { products, formatPrice } from "@/data/products";
+import { formatPrice } from "@/data/products";
+import { useProducts } from "@/context/ProductsContext";
 import { useCart } from "@/context/CartContext";
 
 const ProductsSection = () => {
   const { addToCart } = useCart();
+  const { products } = useProducts();
   const featured = products.slice(0, 8);
 
   return (

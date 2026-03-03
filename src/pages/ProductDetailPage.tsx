@@ -1,13 +1,15 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import { ArrowLeft, Minus, Plus, ShoppingCart, Truck, ShieldCheck, RotateCcw } from "lucide-react";
-import { products, formatPrice } from "@/data/products";
+import { formatPrice } from "@/data/products";
+import { useProducts } from "@/context/ProductsContext";
 import { useCart } from "@/context/CartContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const ProductDetailPage = () => {
   const { id } = useParams<{ id: string }>();
+  const { products } = useProducts();
   const product = products.find((p) => p.id === id);
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
