@@ -10,61 +10,61 @@ const ProductsSection = () => {
   const featured = products.slice(0, 8);
 
   return (
-    <section id="productos" className="py-16 md:py-20 bg-muted/50">
+    <section id="productos" className="bg-muted/50 py-16 md:py-20">
       <div className="container">
-        <div className="text-center mb-12 animate-fade-in-up">
-          <h2 className="font-heading text-3xl md:text-4xl font-800 text-foreground mb-3">
+        <div className="animate-fade-in-up mb-12 text-center">
+          <h2 className="font-800 mb-3 font-heading text-3xl text-foreground md:text-4xl">
             Productos destacados
           </h2>
-          <p className="text-muted-foreground text-lg max-w-md mx-auto">
+          <p className="mx-auto max-w-md text-lg text-muted-foreground">
             Los más elegidos para esta vuelta a clases
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
           {featured.map((product, i) => (
             <div
-              key={product.id}
-              className="group relative bg-card rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 animate-fade-in-up"
+              key={product._id}
+              className="animate-fade-in-up group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               style={{ animationDelay: `${i * 0.08}s` }}
             >
               {product.badge && (
-                <span className="absolute top-3 left-3 z-10 bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1 rounded-full">
+                <span className="absolute left-3 top-3 z-10 rounded-full bg-primary px-2.5 py-1 text-xs font-bold text-primary-foreground">
                   {product.badge}
                 </span>
               )}
 
-              <Link to={`/productos/${product.id}`}>
-                <div className="aspect-square bg-muted/40 overflow-hidden">
+              <Link to={`/productos/${product._id}`}>
+                <div className="aspect-square overflow-hidden bg-muted/40">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
               </Link>
 
               <div className="p-4">
-                <Link to={`/productos/${product.id}`}>
-                  <h3 className="font-heading font-700 text-sm text-foreground mb-2 line-clamp-2 hover:text-primary transition-colors">
+                <Link to={`/productos/${product._id}`}>
+                  <h3 className="font-700 mb-2 line-clamp-2 font-heading text-sm text-foreground transition-colors hover:text-primary">
                     {product.name}
                   </h3>
                 </Link>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="font-heading font-800 text-lg text-primary">
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="font-800 font-heading text-lg text-primary">
                     {formatPrice(product.price)}
                   </span>
                   {product.oldPrice && (
-                    <span className="text-muted-foreground text-xs line-through">
+                    <span className="text-xs text-muted-foreground line-through">
                       {formatPrice(product.oldPrice)}
                     </span>
                   )}
                 </div>
                 <button
                   onClick={() => addToCart(product)}
-                  className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold text-sm py-2.5 rounded-xl hover:opacity-90 transition-opacity"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
                 >
-                  <ShoppingCart className="w-4 h-4" />
+                  <ShoppingCart className="h-4 w-4" />
                   Agregar al carrito
                 </button>
               </div>
@@ -72,10 +72,10 @@ const ProductsSection = () => {
           ))}
         </div>
 
-        <div className="text-center mt-10">
+        <div className="mt-10 text-center">
           <Link
             to="/productos"
-            className="inline-flex items-center justify-center bg-card text-foreground font-bold px-8 py-3.5 rounded-full text-base border border-border hover:bg-muted transition-colors"
+            className="inline-flex items-center justify-center rounded-full border border-border bg-card px-8 py-3.5 text-base font-bold text-foreground transition-colors hover:bg-muted"
           >
             Ver todos los productos
           </Link>

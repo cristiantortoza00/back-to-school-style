@@ -3,8 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CartProvider } from "@/context/CartContext";
-import { ProductsProvider } from "@/context/ProductsContext";
+import { CartProvider, ProductsProvider, UserProvider } from "@/context";
 import Index from "./pages/Index";
 import ProductsPage from "./pages/ProductsPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
@@ -14,31 +13,41 @@ import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import NotFound from "./pages/NotFound";
+import PrivateRoute from "@/components/PrivateRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <ProductsProvider>
-        <CartProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/productos" element={<ProductsPage />} />
-              <Route path="/productos/:id" element={<ProductDetailPage />} />
-              <Route path="/carrito" element={<CartPage />} />
-              <Route path="/contacto" element={<ContactPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/registro" element={<SignupPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </CartProvider>
-      </ProductsProvider>
+      <UserProvider>
+        <ProductsProvider>
+          <CartProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/productos" element={<ProductsPage />} />
+                <Route path="/productos/:id" element={<ProductDetailPage />} />
+                <Route path="/carrito" element={<CartPage />} />
+                <Route path="/contacto" element={<ContactPage />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <PrivateRoute>
+                      <AdminPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/registro" element={<SignupPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </CartProvider>
+        </ProductsProvider>
+      </UserProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

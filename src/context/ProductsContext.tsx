@@ -1,108 +1,49 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import {
-  products as defaultProducts,
-  type Product,
-  type Category,
-  categoryLabels as defaultCategoryLabels,
-} from "@/data/products";
-
-export interface CategoryItem {
-  id: Category;
-  label: string;
-}
+import { Product, Category, productsData } from "@/data/products";
 
 interface ProductsContextType {
   products: Product[];
-  categories: CategoryItem[];
-  addProduct: (p: Omit<Product, "id">) => void;
+  categories: Category[];
+  addProduct: (data: Partial<Product>) => Promise<any>;
   updateProduct: (id: string, p: Partial<Product>) => void;
   deleteProduct: (id: string) => void;
-  addCategory: (label: string) => void;
-  updateCategory: (id: Category, label: string) => void;
-  deleteCategory: (id: Category) => void;
+  addCategory: (name: string) => Promise<any>;
+  updateCategory: (_id: string, name: string) => Promise<any>;
+  deleteCategory: (_id: string) => Promise<any>;
 }
 
-const ProductsContext = createContext<ProductsContextType | null>(null);
-
-const PRODUCTS_KEY = "admin_products";
-const CATEGORIES_KEY = "admin_categories";
-
-const defaultCategories: CategoryItem[] = Object.entries(
-  defaultCategoryLabels,
-).map(([id, label]) => ({
-  id: id as Category,
-  label,
-}));
+export const ProductsContext = createContext<ProductsContextType | null>(null);
 
 export const ProductsProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [products, setProducts] = useState<Product[]>(() => {
-    const stored = localStorage.getItem(PRODUCTS_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        // Migrate old emoji-based products to image-based
-        if (
-          parsed.length > 0 &&
-          "emoji" in parsed[0] &&
-          !("image" in parsed[0])
-        ) {
-          localStorage.removeItem(PRODUCTS_KEY);
-          return defaultProducts;
-        }
-        return parsed;
-      } catch {
-        return defaultProducts;
-      }
-    }
-    return defaultProducts;
-  });
+  const [products, setProducts] = useState<Product[]>(productsData);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const [categories, setCategories] = useState<CategoryItem[]>(() => {
-    const stored = localStorage.getItem(CATEGORIES_KEY);
-    return stored ? JSON.parse(stored) : defaultCategories;
-  });
+  const addProduct = async (data: Partial<Product>) => {};
 
-  useEffect(
-    () => localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products)),
-    [products],
-  );
-  useEffect(
-    () => localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories)),
-    [categories],
-  );
-
-  const addProduct = (p: Omit<Product, "id">) => {
-    const id = p.name.toLowerCase().replace(/\s+/g, "-") + "-" + Date.now();
-    setProducts((prev) => [...prev, { ...p, id }]);
-  };
-
-  const updateProduct = (id: string, data: Partial<Product>) => {
+  const updateProduct = async (_id: string, data: Partial<Product>) => {
     setProducts((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, ...data } : p)),
+      prev.map((p) => (p._id === _id ? { ...p, ...data } : p)),
     );
   };
 
-  const deleteProduct = (id: string) => {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+  const deleteProduct = async (_id: string) => {
+    setProducts((prev) => prev.filter((p) => p._id !== _id));
   };
 
-  const addCategory = (label: string) => {
-    const id = label.toLowerCase().replace(/\s+/g, "-") as Category;
-    setCategories((prev) => [...prev, { id, label }]);
-  };
+  const addCategory = async (name: string) => {};
 
-  const updateCategory = (id: Category, label: string) => {
+  const updateCategory = async (_id: string, name: string) => {
     setCategories((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, label } : c)),
+      prev.map((c) => (c._id === _id ? { ...c, name } : c)),
     );
   };
 
-  const deleteCategory = (id: Category) => {
-    setCategories((prev) => prev.filter((c) => c.id !== id));
+  const deleteCategory = async (_id: string) => {
+    setCategories((prev) => prev.filter((c) => c._id !== _id));
   };
 
   return (

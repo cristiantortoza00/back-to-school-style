@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Mail, Lock, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { useUserContext } from "@/hooks/useContext";
 
 const loginSchema = z.object({
   email: z.string().trim().email({ message: "Email inválido" }),
@@ -20,6 +21,8 @@ type LoginForm = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
   const { toast } = useToast();
+  const { login, setToken } = useUserContext();
+  const navigate = useNavigate();
   const [form, setForm] = useState<LoginForm>({ email: "", password: "" });
   const [errors, setErrors] = useState<
     Partial<Record<keyof LoginForm, string>>
@@ -33,6 +36,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     const result = loginSchema.safeParse(form);
 
     if (!result.success) {
@@ -45,15 +49,27 @@ const LoginPage = () => {
       return;
     }
 
-    setLoading(true);
-    // TODO: Conectar con backend de autenticación
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const res = await login(form.email, form.password);
+      if (res.data?.token) {
+        localStorage.setItem("token", res.data.token);
+        setToken(res.data.token);
+        toast({
+          title: "Bienvenido",
+          description: "Has iniciado sesión exitosamente",
+        });
+      }
+      navigate("/admin");
+    } catch (error) {
+      console.log(error);
       toast({
-        title: "Inicio de sesión exitoso",
-        description: "Bienvenido/a de vuelta.",
+        title: "Error al iniciar sesión",
+        description: "Ocurrió un error al intentar iniciar sesión",
+        variant: "destructive",
       });
-    }, 1000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

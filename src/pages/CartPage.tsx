@@ -14,20 +14,20 @@ const CartPage = () => {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="flex min-h-screen flex-col bg-background">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center py-20">
+        <div className="flex flex-1 items-center justify-center py-20">
           <div className="text-center">
-            <ShoppingBag className="w-16 h-16 text-muted-foreground/40 mx-auto mb-4" />
-            <h1 className="font-heading text-2xl font-800 text-foreground mb-2">
+            <ShoppingBag className="mx-auto mb-4 h-16 w-16 text-muted-foreground/40" />
+            <h1 className="font-800 mb-2 font-heading text-2xl text-foreground">
               Tu carrito está vacío
             </h1>
-            <p className="text-muted-foreground mb-6">
+            <p className="mb-6 text-muted-foreground">
               ¡Explorá nuestros productos y empezá a agregar!
             </p>
             <Link
               to="/productos"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-bold px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground transition-opacity hover:opacity-90"
             >
               Ver productos
             </Link>
@@ -39,105 +39,105 @@ const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
 
       <div className="container flex-1 py-8">
         <Link
           to="/productos"
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6 text-sm font-medium"
+          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
-          <ArrowLeft className="w-4 h-4" /> Seguir comprando
+          <ArrowLeft className="h-4 w-4" /> Seguir comprando
         </Link>
 
-        <h1 className="font-heading text-3xl md:text-4xl font-800 text-foreground mb-8">
+        <h1 className="font-800 mb-8 font-heading text-3xl text-foreground md:text-4xl">
           Tu carrito
         </h1>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 flex flex-col gap-4">
+        <div className="grid gap-8 lg:grid-cols-3">
+          <div className="flex flex-col gap-4 lg:col-span-2">
             {items.map(({ product, quantity }) => (
               <div
-                key={product.id}
-                className="flex gap-4 bg-card border border-border rounded-2xl p-4 items-center"
+                key={product._id}
+                className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4"
               >
                 <Link
-                  to={`/productos/${product.id}`}
-                  className="w-20 h-20 bg-muted/40 rounded-xl overflow-hidden shrink-0 hover:scale-105 transition-transform"
+                  to={`/productos/${product._id}`}
+                  className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-muted/40 transition-transform hover:scale-105"
                 >
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                   />
                 </Link>
 
-                <div className="flex-1 min-w-0">
-                  <Link to={`/productos/${product.id}`}>
-                    <h3 className="font-heading font-700 text-sm text-foreground truncate hover:text-primary transition-colors">
+                <div className="min-w-0 flex-1">
+                  <Link to={`/productos/${product._id}`}>
+                    <h3 className="font-700 truncate font-heading text-sm text-foreground transition-colors hover:text-primary">
                       {product.name}
                     </h3>
                   </Link>
-                  <p className="font-heading font-800 text-primary mt-1">
+                  <p className="font-800 mt-1 font-heading text-primary">
                     {formatPrice(product.price)}
                   </p>
                 </div>
 
-                <div className="flex items-center border border-border rounded-lg overflow-hidden shrink-0">
+                <div className="flex shrink-0 items-center overflow-hidden rounded-lg border border-border">
                   <button
-                    onClick={() => updateQuantity(product.id, quantity - 1)}
-                    className="p-2 hover:bg-muted transition-colors"
+                    onClick={() => updateQuantity(product._id, quantity - 1)}
+                    className="p-2 transition-colors hover:bg-muted"
                   >
-                    <Minus className="w-3.5 h-3.5" />
+                    <Minus className="h-3.5 w-3.5" />
                   </button>
-                  <span className="px-3 font-heading font-700 text-sm text-foreground">
+                  <span className="font-700 px-3 font-heading text-sm text-foreground">
                     {quantity}
                   </span>
                   <button
-                    onClick={() => updateQuantity(product.id, quantity + 1)}
-                    className="p-2 hover:bg-muted transition-colors"
+                    onClick={() => updateQuantity(product._id, quantity + 1)}
+                    className="p-2 transition-colors hover:bg-muted"
                   >
-                    <Plus className="w-3.5 h-3.5" />
+                    <Plus className="h-3.5 w-3.5" />
                   </button>
                 </div>
 
-                <span className="font-heading font-800 text-foreground min-w-[5rem] text-right hidden sm:block">
+                <span className="font-800 hidden min-w-[5rem] text-right font-heading text-foreground sm:block">
                   {formatPrice(product.price * quantity)}
                 </span>
 
                 <button
-                  onClick={() => removeFromCart(product.id)}
-                  className="p-2 text-muted-foreground hover:text-destructive transition-colors shrink-0"
+                  onClick={() => removeFromCart(product._id)}
+                  className="shrink-0 p-2 text-muted-foreground transition-colors hover:text-destructive"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="h-4 w-4" />
                 </button>
               </div>
             ))}
 
             <button
               onClick={clearCart}
-              className="self-end text-sm text-muted-foreground hover:text-destructive transition-colors font-medium"
+              className="self-end text-sm font-medium text-muted-foreground transition-colors hover:text-destructive"
             >
               Vaciar carrito
             </button>
           </div>
 
           <div className="lg:col-span-1">
-            <div className="sticky top-24 bg-card border border-border rounded-2xl p-6">
-              <h2 className="font-heading text-xl font-800 text-foreground mb-6">
+            <div className="sticky top-24 rounded-2xl border border-border bg-card p-6">
+              <h2 className="font-800 mb-6 font-heading text-xl text-foreground">
                 Resumen
               </h2>
 
-              <div className="flex flex-col gap-3 text-sm mb-6">
+              <div className="mb-6 flex flex-col gap-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span className="font-heading font-700 text-foreground">
+                  <span className="font-700 font-heading text-foreground">
                     {formatPrice(totalPrice)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Envío</span>
-                  <span className="font-heading font-700 text-foreground">
+                  <span className="font-700 font-heading text-foreground">
                     {shipping === 0 ? (
                       <span className="text-primary">Gratis</span>
                     ) : (
@@ -150,21 +150,21 @@ const CartPage = () => {
                     Envío gratis en compras mayores a {formatPrice(20000)}
                   </p>
                 )}
-                <div className="border-t border-border pt-3 flex justify-between">
-                  <span className="font-heading font-700 text-foreground">
+                <div className="flex justify-between border-t border-border pt-3">
+                  <span className="font-700 font-heading text-foreground">
                     Total
                   </span>
-                  <span className="font-heading font-800 text-xl text-primary">
+                  <span className="font-800 font-heading text-xl text-primary">
                     {formatPrice(finalTotal)}
                   </span>
                 </div>
               </div>
 
-              <button className="w-full bg-primary text-primary-foreground font-bold py-3.5 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/25">
+              <button className="w-full rounded-xl bg-primary py-3.5 font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-opacity hover:opacity-90">
                 Finalizar compra
               </button>
 
-              <p className="text-xs text-muted-foreground text-center mt-4">
+              <p className="mt-4 text-center text-xs text-muted-foreground">
                 Aceptamos todos los medios de pago
               </p>
             </div>

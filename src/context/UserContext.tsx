@@ -1,11 +1,19 @@
-import { createContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { api } from "@/api/api";
 
 interface UserContextType {
   token: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<any>;
+  signUp: (email: string, password: string) => Promise<any>;
   logout: () => void;
+  setToken: Dispatch<SetStateAction<string>>;
 }
 
 export const UserContext = createContext<UserContextType | null>(null);
@@ -14,6 +22,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token"),
   );
+
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (token) {
@@ -46,18 +55,26 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const res = await api.post("/user/login", { email, password });
-    console.log(res);
-    setToken(res.data.token);
+    try {
+      const res = await api.post("/user/login", { email, password });
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   };
 
   const signUp = async (email: string, password: string) => {
-    const res = await api.post("/user/signup/YnspIjdl123tgf", {
-      email,
-      password,
-    });
-    console.log(res);
-    setToken(res.data.token);
+    try {
+      const res = await api.post("/user/signup/YnspIjdl123tgf", {
+        email,
+        password,
+      });
+      return res;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
   };
 
   const logout = () => {
@@ -65,7 +82,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ token, login, logout, signUp }}>
+    <UserContext.Provider value={{ token, login, logout, signUp, setToken }}>
       {children}
     </UserContext.Provider>
   );

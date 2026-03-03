@@ -8,29 +8,42 @@ import { Label } from "@/components/ui/label";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { useUserContext } from "@/hooks/useContext";
+import { useNavigate } from "react-router-dom";
 
-const signupSchema = z
-  .object({
-    email: z.string().trim().email({ message: "Email inválido" }),
-    password: z
-      .string()
-      .min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
-    confirmPassword: z.string().min(6, { message: "Confirmá tu contraseña" }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Las contraseñas no coinciden",
-    path: ["confirmPassword"],
-  });
+const PASSWORD_VERIFY_CODE_SIGNUP = import.meta.env
+  .VITE_PASSWORD_VERIFY_CODE_SIGNUP;
+
+const signupSchema = z.object({
+  email: z
+    .string()
+    .nonempty("Campo obligatorio")
+    .trim()
+    .email({ message: "Email inválido" }),
+  password: z
+    .string()
+    .nonempty("Campo obligatorio")
+    .min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
+  validationPassword: z
+    .string()
+    .nonempty("Campo obligatorio")
+    .refine((val) => val === PASSWORD_VERIFY_CODE_SIGNUP, {
+      message: "La contraseña no coincide con la requerida",
+    }),
+});
 
 type SignupForm = z.infer<typeof signupSchema>;
 
 const SignupPage = () => {
   const { toast } = useToast();
+  const { signUp, setToken } = useUserContext();
+  const navigate = useNavigate();
   const [form, setForm] = useState<SignupForm>({
     email: "",
     password: "",
-    confirmPassword: "",
+    validationPassword: "",
   });
+
   const [errors, setErrors] = useState<
     Partial<Record<keyof SignupForm, string>>
   >({});
@@ -43,27 +56,43 @@ const SignupPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+    setLoading(true);
+
     const result = signupSchema.safeParse(form);
 
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof SignupForm, string>> = {};
       result.error.errors.forEach((err) => {
-        const field = err.path[0] as keyof SignupForm;
-        fieldErrors[field] = err.message;
+        const field = err.path[0];
+        if (typeof field === "string") {
+          fieldErrors[field as keyof SignupForm] = err.message;
+        }
       });
       setErrors(fieldErrors);
       return;
     }
-
-    setLoading(true);
-    // TODO: Conectar con backend de autenticación
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const res = await signUp(form.email, form.password);
+      console.log(res);
+      if (res.status === 201) {
+        setToken(res.data);
+        localStorage.setItem("token", res.data);
+        toast({
+          title: "Cuenta creada",
+          description: "Tu cuenta ha sido creada exitosamente",
+        });
+        navigate("/admin");
+      }
+    } catch (error) {
       toast({
-        title: "Cuenta creada",
-        description: "¡Bienvenido/a! Ya podés iniciar sesión.",
+        title: "Error al crear cuenta",
+        description:
+          "Hubo un error al crear tu cuenta. Por favor, inténtalo de nuevo.",
       });
-    }, 1000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -124,25 +153,26 @@ const SignupPage = () => {
                   </p>
                 )}
               </div>
-
               <div className="grid gap-2">
-                <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
+                <Label htmlFor="validationPassword">
+                  Ingrese la contraseña de validación
+                </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
-                    id="confirmPassword"
+                    id="validationPassword"
                     type="password"
                     placeholder="••••••••"
                     className="pl-10"
-                    value={form.confirmPassword}
+                    value={form.validationPassword}
                     onChange={(e) =>
-                      handleChange("confirmPassword", e.target.value)
+                      handleChange("validationPassword", e.target.value)
                     }
                   />
                 </div>
-                {errors.confirmPassword && (
+                {errors.validationPassword && (
                   <p className="text-destructive text-xs font-medium">
-                    {errors.confirmPassword}
+                    {errors.validationPassword}
                   </p>
                 )}
               </div>
