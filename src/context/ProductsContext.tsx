@@ -20,7 +20,11 @@ export const ProductsProvider = ({
   children: React.ReactNode;
 }) => {
   const [products, setProducts] = useState<Product[]>(productsData);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>(() => {
+    const seen = new Map<string, Category>();
+    productsData.forEach((p) => { if (!seen.has(p.category._id)) seen.set(p.category._id, p.category); });
+    return Array.from(seen.values());
+  });
 
   const addProduct = async (data: Partial<Product>) => {};
 

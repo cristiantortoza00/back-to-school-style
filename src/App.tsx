@@ -12,6 +12,7 @@ import ContactPage from "./pages/ContactPage";
 import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import FondoComercioPage from "./pages/FondoComercioPage";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "@/components/PrivateRoute";
 
@@ -32,6 +33,7 @@ const App = () => (
                 <Route path="/productos/:id" element={<ProductDetailPage />} />
                 <Route path="/carrito" element={<CartPage />} />
                 <Route path="/contacto" element={<ContactPage />} />
+                <Route path="/fondo-de-comercio" element={<FondoComercioPage />} />
                 <Route
                   path="/admin"
                   element={
